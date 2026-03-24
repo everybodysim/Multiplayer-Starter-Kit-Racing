@@ -23,8 +23,10 @@ export class Multiplayer {
 
 	async connect( mapCode ) {
 
-		const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-		const endpoint = `${ protocol }://${ location.hostname }:${ location.port }`;
+		const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+		const endpoint = isLocal
+			? `ws://${ location.hostname }:${ location.port }`
+			: 'https://us-sjc-e902b997.colyseus.cloud';
 		const client = new Client( endpoint );
 
 		const options = { mapCode: mapCode || 'default' };
