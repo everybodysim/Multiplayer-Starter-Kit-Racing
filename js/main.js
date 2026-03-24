@@ -99,8 +99,25 @@ async function loadModels() {
 
 }
 
+function setLoadingStatus( text ) {
+
+	const el = document.getElementById( 'loading-status' );
+	if ( el ) el.textContent = text;
+
+}
+
+function hideLoadingScreen() {
+
+	const el = document.getElementById( 'loading-screen' );
+	if ( ! el ) return;
+	el.classList.add( 'fade-out' );
+	el.addEventListener( 'transitionend', () => el.remove() );
+
+}
+
 async function init() {
 
+	setLoadingStatus( 'Loading models…' );
 	registerAll();
 	await loadModels();
 
@@ -170,6 +187,7 @@ async function init() {
 	} );
 
 	// Connect to multiplayer server
+	setLoadingStatus( 'Connecting…' );
 	let multiplayer = null;
 	let modelKey = 'vehicle-truck-yellow';
 	let spawnX = spawn ? spawn.position[ 0 ] : 3.5;
@@ -268,6 +286,7 @@ async function init() {
 
 	}
 
+	hideLoadingScreen();
 	animate();
 
 }
